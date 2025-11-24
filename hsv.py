@@ -2,32 +2,47 @@ import cv2
 import time
 import argparse
 
+# Parse command line arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image",
-    help="path to the (optional) image file")
+                help="path to the (optional) image file")
 args = vars(ap.parse_args())
 
-x_co = 0
-y_co = 0
-def on_mouse(event,x,y,flag,param):
-  global x_co
-  global y_co
-  if(event==cv2.EVENT_MOUSEMOVE):
-    x_co=x
-    y_co=y
+# Global coordinates for mouse interaction
+x_coord = 0
+y_coord = 0
+
+def on_mouse(event, x, y, flag, param):
+    """
+    Callback function for mouse events.
+    Updates global coordinates on mouse move.
+    """
+    global x_coord
+    global y_coord
+    if event == cv2.EVENT_MOUSEMOVE:
+        x_coord = x
+        y_coord = y
 
 cv2.namedWindow('camera')
 
-#capture = cv.CaptureFromCAM(0)
+# Main loop
 while True:
-#    src = cv.QueryFrame(capture)
+    # Read image from arguments
     src = cv2.imread(args["image"])
-    #src = cv2.GaussianBlur(src,(5,5),0)
+    
+    # Convert to HSV color space
     hsv = cv2.cvtColor(src, cv2.COLOR_BGR2HSV)
-    cv2.setMouseCallback("camera",on_mouse);
-    s=hsv[y_co,x_co]
-    print("H:",s[0],"      S:",s[1],"       V:",s[2])
-    #cv2.PutText(src,str(s[0])+","+str(s[1])+","+str(s[2]), (x_co,y_co),font, (55,25,255))
+    
+    # Set mouse callback
+    cv2.setMouseCallback("camera", on_mouse)
+    
+    # Get HSV values at the current mouse position
+    s = hsv[y_coord, x_coord]
+    print("H:", s[0], "      S:", s[1], "       V:", s[2])
+    
+    # Display the image
     cv2.imshow("camera", hsv)
+    
+    # Exit on ESC key
     if cv2.waitKey(10) == 27:
         break

@@ -24,7 +24,7 @@ python3 detect.py -i path/to/file
 ```
 Examples:
 ```bash
-python3 detect.py -i Offside_normal.mp4
+python3 detect.py -i offside_example.mp4
 python3 detect.py -i photo.jpg
 ```
 
@@ -39,7 +39,7 @@ python3 detect.py -i photo.jpg --debug
 ### Color Thresholding Tool
 Use `hsv.py` to find the best HSV thresholds for team colors:
 ```bash
-python3 hsv.py -i Offside_normal.mp4
+python3 hsv.py -i offside_example.mp4
 ```
 
 ## Limitations
